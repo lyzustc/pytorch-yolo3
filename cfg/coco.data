@@ -1,0 +1,6 @@
+dataset = coco
+train  = /home/yzluo/data/coco/trainvalno5k.txt
+valid  = /home/yzluo/data/coco/5k.txt
+names = data/coco.names
+backup = backup
+gpus  = 0,1,2,3

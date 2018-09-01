@@ -1,0 +1,6 @@
+dataset = voc
+train  = /home/yzluo/data/VOCdevkit/voc_train.txt
+valid  = /home/yzluo/data/VOCdevkit/2007_test.txt
+names = data/voc.names
+backup = backup
+gpus  = 0,1,2,3

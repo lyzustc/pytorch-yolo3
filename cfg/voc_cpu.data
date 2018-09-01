@@ -1,0 +1,6 @@
+dataset = voc
+train  = /home/lyzustc/programs/pytorch/data/VOCdevkit/voc_trainval.txt
+valid  = /home/lyzustc/programs/pytorch/data/VOCdevkit/2007_test.txt
+names = data/voc.names
+backup = backup
+gpus  = 0,1,2,3
