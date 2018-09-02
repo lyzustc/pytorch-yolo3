@@ -1,6 +1,6 @@
 dataset = mydataset
-train  = /home/yzluo/data/mydataset/train.txt
-valid  = /home/yzluo/data/mydataset/test.txt
+train  = train.txt
+valid  = test.txt
 names = data/mydataset.names
 backup = backup
 gpus  = 0,1,2,3

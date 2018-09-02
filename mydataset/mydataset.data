@@ -1,0 +1,4 @@
+dataset = mydataset
+train = txtfiles/train.txt
+valid = txtfiles/test.txt
+names = mydataset.names

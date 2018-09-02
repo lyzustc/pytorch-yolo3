@@ -116,7 +116,8 @@ def get_bounding_box(labpath, max_iteration, num_anchors, convergence_loss):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--label_path', '-lp', type=str, default='/VOCdevkit/VOC2007/labels', help='the path to label txt files')
+    parser.add_argument('--label_path', '-lp', type=str, default='../labels', help='the path to label txt files')
+    parser.add_argument('--save_path', '-sp', type=str, default='../txtfiles', help='the path to save result file')
     parser.add_argument('--max_iteration', '-mi', type=int, default=100, help='max iteration times')
     parser.add_argument('--num_anchors', '-n', type=int, default=9, help='number of anchors')
     parser.add_argument('--convergence_loss', '-cl', type=float, default=1e-6, help='convergence loss to step iteration')
@@ -125,7 +126,7 @@ if __name__ == '__main__':
     centroids = get_bounding_box(args.label_path, args.max_iteration, args.num_anchors, args.convergence_loss)
     
     print('begin writing to files...')
-    f = open('bbox_size.txt', 'w')
+    f = open(os.path.join(args.save_path, 'bbox_size.txt'), 'w')
     for box in centroids:
         f.write(str(int(box.w*416))+' '+str(int(box.h*416))+' '+'\n')
     f.close()

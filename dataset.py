@@ -8,23 +8,24 @@ from torchvision import transforms
 import cv2
 
 class MyDataset(Dataset):
-    def __init__(self, txtfile, dataset = 'voc', shape = (416,416), is_train = False, use_da = False, transform = transforms.ToTensor(), target_transform = None):
+    def __init__(self, rootpath, txtfile, dataset = 'voc', shape = (416,416), is_train = False, use_da = False, transform = transforms.ToTensor(), target_transform = None):
         self.dataset = dataset
         self.transform = transform
         self.target_transform = target_transform
         self.is_train = is_train
         self.shape = shape
-        with open(txtfile) as file:
+        with open(os.path.join(rootpath, txtfile)) as file:
             self.lines = file.readlines()
         self.len = len(self.lines)
         self.use_da = use_da
+        self.rootpath = rootpath
         
     def __len__(self):
         return self.len
     
     def __getitem__(self, index):
         assert index <= self.len, 'index out of range'
-        imgpath = self.lines[index].rstrip()
+        imgpath = os.path.join(self.rootpath, self.lines[index].rstrip())
         assert os.path.exists(imgpath), 'image does not exist'
         
         if self.dataset == "voc":
@@ -32,8 +33,8 @@ class MyDataset(Dataset):
         elif self.dataset == "coco":
             labpath = imgpath.replace("images","labels").replace(".jpg",".txt")
         else:
-            labpath = self.get_labpath(imgpath)
-            #labpath = imgpath.replace("Images","labels").replace(".jpg",".txt") 
+            #labpath = self.get_labpath(imgpath)
+            labpath = imgpath.replace("Images","labels").replace(".jpg",".txt") 
 
         if self.is_train and self.use_da:
             img, label = load_data_detection(imgpath, labpath, self.shape, jitter = 0.2, hue = 0.1, saturation = 1.5, exposure = 1.5)

@@ -21,6 +21,7 @@ parser.add_argument('--reset', '-r', action='store_true', default = False, help=
 parser.add_argument('--save', '-s', type=str, default='weights',help='weights save path')
 parser.add_argument('--paral', '-p', action='store_true', default=False, help='if specified, use multi-gpu to train')
 parser.add_argument('--data_augmentation', '-da', action='store_true', default=False, help='if specified, use data aumentation before loading data')
+parser.add_argument('--dataset_root_path', '-drp', type=str, default='/data/voc', help='specify the root path of your dataset')
 args, _ = parser.parse_known_args()
 
 data_pth = args.data
@@ -48,7 +49,7 @@ batch_size = int(net_options['batch'])
 subdivisions = int(net_options['subdivisions'])
 steps = [float(step) for step in net_options['steps'].split(',')]
 scales = [float(scale) for scale in net_options['scales'].split(',')]
-nsamples = file_lines(train_pth)
+nsamples = file_lines(os.path.join(args.dataset_root_path,train_pth))
 
 epoch_batches = math.ceil(nsamples / batch_size)
 try:
@@ -88,7 +89,7 @@ if use_vis:
 lr = get_learning_rate(learning_rate, init_batch, burn_in, steps, scales)
 optimizer = optim.SGD(filter(lambda p: p.requires_grad, model.parameters()), lr=lr, momentum=momentum, dampening=0, weight_decay=decay)
 
-dataset = MyDataset(txtfile = train_pth, dataset = dataset_name, is_train = True, use_da = use_da)
+dataset = MyDataset(rootpath = args.dataset_root_path, txtfile = train_pth, dataset = dataset_name, is_train = True, use_da = use_da)
 kwargs = {'num_workers': num_workers, 'pin_memory': True} if use_cuda else {}
 dataLoader = DataLoader(dataset = dataset, shuffle = True, batch_size = batch_size//subdivisions, **kwargs)
 dataIter = iter(dataLoader)

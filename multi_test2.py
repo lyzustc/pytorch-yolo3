@@ -122,7 +122,7 @@ if __name__ == '__main__':
     bm.register('get_send_end')
     bm.register('add_pro_end')
     bm.register('get_pro_end')
-    m = bm(address=('10.66.30.45',10000),authkey = b'abc')
+    m = bm(address=('geeekvr.com',8014),authkey = b'abc')
     m.connect()
 
     if args.video:
